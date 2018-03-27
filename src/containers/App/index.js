@@ -1,11 +1,21 @@
 // Core
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 // Components
-import Scheduler from 'components/Scheduler';
+import Tasks from 'components/Tasks';
 
 export default class App extends Component {
     render () {
-        return 'Scheduler';
+        return (
+            <Fragment>
+                <Tasks />
+                <ToastContainer
+                    className = { {
+                        fontSize: 16,
+                    } }
+                />
+            </Fragment>
+        );
     }
 }

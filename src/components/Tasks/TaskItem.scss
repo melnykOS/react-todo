@@ -1,6 +1,6 @@
 @import '../../theme/palette';
 
-.task {
+.taskItem {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -29,10 +29,6 @@
             margin-right: 1.9rem;
         }
 
-        & input {
-            width: 100%;
-            border: 0;
-        }
     }
 
     & > div:last-child {
