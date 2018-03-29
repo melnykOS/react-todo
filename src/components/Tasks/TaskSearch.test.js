@@ -1,6 +1,6 @@
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
-import { configure, shallow, mount } from 'enzyme';
+import { configure, mount } from 'enzyme';
 import 'jest-localstorage-mock';
 
 import TaskSearch from './TaskSearch';
@@ -11,7 +11,11 @@ const fetchData = jest.fn();
 
 const searchText = 'Task 1';
 
-const mutatedData  = {
+const state  = {
+    searchText: ''
+};
+
+const mutatedState  = {
     searchText: searchText
 };
 
@@ -19,17 +23,33 @@ const result = mount(
     <TaskSearch fetchTasks = {fetchData} />
 );
 
-test('fetchTasks() вызывается один раз', () => {
+test('fetchTasks() should run once', () => {
     expect(fetchData.mock.calls.length).toBe(1);
 });
 
-test(`Поле поиска должно реагировать на изменени`, () => {
+test(`input value should response to value change`, () => {
     result.find('input').simulate('change', {
         target: {
             value: searchText
         }
     });
 
-    expect(result.state()).toEqual(mutatedData);
-    expect(result.find('input').text()).toBe(searchText);
+    expect(result.state()).toEqual(mutatedState);
+    expect(result.find('input').instance().value).toBe(searchText);
+});
+
+test(`input value should response to state change`, () => {
+    result.setState(() => ({
+        searchText: searchText
+    }));
+    
+    expect(result.state()).toEqual(mutatedState);
+    expect(result.find('input').instance().value).toBe(searchText);
+    
+    result.setState(() => ({
+        searchText: ''
+    }));
+    
+    expect(result.state()).toEqual(state);
+    expect(result.find('input').instance().value).toBe('');        
 });
