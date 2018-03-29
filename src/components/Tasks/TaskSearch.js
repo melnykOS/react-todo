@@ -23,7 +23,7 @@ export default class TaskSearch extends Component {
 
     }
 
-    searchTodos = (e) => {
+    searchTasks = (e) => {
         const { value } = e.target;
 
         this.setState(() => ({
@@ -42,7 +42,7 @@ export default class TaskSearch extends Component {
                 placeholder = 'Поиск'
                 type = 'search'
                 value = { searchText }
-                onChange = { this.searchTodos }
+                onChange = { this.searchTasks }
             />
         );
     }
