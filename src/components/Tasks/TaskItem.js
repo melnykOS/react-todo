@@ -55,13 +55,13 @@ export default class TaskItem extends Component {
         }
     };
 
-    _handleComplete = () => {
+    handleComplete = () => {
         const { id, editTask, completed, favorite, message, isAllChecked } = this.props;
 
         editTask([{ id, message, completed: !completed, favorite }], isAllChecked);
     }
 
-    _handleFav = () => {
+    handleFav = () => {
         const { id, editTask, completed, favorite, message } = this.props;
 
         editTask([{ id, message, completed, favorite: !favorite }]);
@@ -95,7 +95,7 @@ export default class TaskItem extends Component {
                         checked = { completed }
                         color1 = '#3B8EF3'
                         color2 = '#FFF'
-                        onClick = { this._handleComplete }
+                        onClick = { this.handleComplete }
                     />
                     { messageWrapper }
                 </div>
@@ -104,7 +104,7 @@ export default class TaskItem extends Component {
                         checked = { favorite }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { this._handleFav }
+                        onClick = { this.handleFav }
                     />
                     <Edit color1 = '#3B8EF3' color2 = '#000' onClick = { this.handleEdit } />
                     <Delete color1 = '#3B8EF3' color2 = '#000' onClick = { this.handleDelete } />
