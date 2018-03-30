@@ -24,7 +24,7 @@ class TasksWrapper extends Component {
     };
 
     state = {
-        completedAll: '',
+        completedAll: null,
     }
 
     componentWillReceiveProps (nextProps) {
