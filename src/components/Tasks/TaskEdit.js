@@ -50,9 +50,11 @@ export default class TaskEdit extends Component {
     };
 
     handleKeyPress = (event) => {
+        const { message } = this.state;
+
         if (event.key === 'Enter') {
             event.preventDefault();
-            this.props.editTask(this.state.message);
+            this.props.editTask(message);
         }
     };
 

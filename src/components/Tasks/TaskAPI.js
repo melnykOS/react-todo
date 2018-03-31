@@ -111,9 +111,10 @@ const withApi = (Injectable) => {
 
         _deleteTask = async (id) => {
             const { api, token } = config;
+            const { tasks } = this.state;
 
             try {
-                if (!find(propEq('id', id))(this.state.tasks)) {
+                if (!find(propEq('id', id))(tasks)) {
                     return;
                 }
                 const response = await fetch(`${api}/${id}`, {

@@ -57,10 +57,11 @@ class TasksWrapper extends Component {
 
     render () {
         const { fetchTasks, createTask, deleteTask, editTask, tasks } = this.props;
+        const { completedAll } = this.state;
         const footerWrapper = tasks.length > 0
             ? <footer>
                 <Checkbox
-                    checked = { this.state.completedAll }
+                    checked = { completedAll }
                     color1 = '#363636'
                     color2 = '#fff'
                     onClick = { this.handleCompleteAll }
