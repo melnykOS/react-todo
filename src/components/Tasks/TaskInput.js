@@ -16,7 +16,13 @@ export default class TaskInput extends Component {
         error:   '',
     }
 
-    toastId = null;
+    componentWillMount () {
+        const message = localStorage.getItem('message') || '';
+
+        this.setState(() => ({
+            message,
+        }));
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -41,6 +47,7 @@ export default class TaskInput extends Component {
         this.setState(() => ({
             message,
         }));
+        localStorage.setItem('message', message);
     };
 
     handleKeyPress = (event) => {
