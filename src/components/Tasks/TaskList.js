@@ -31,6 +31,7 @@ export default class TaskList extends Component {
     }
 
     _setEditable = (id) => {
+        console.log('onClick');
         this.setState(() => ({
             editable: id ? id : '',
         }));

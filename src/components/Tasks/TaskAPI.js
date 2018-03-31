@@ -13,6 +13,11 @@ const withApi = (Injectable) => {
 
         _fetchTasks = async (search, page, size) => {
             const { api, token } = config;
+
+            if (!api || !token) {
+                throw new Error('Ошибка связи с сервером, невнрный api или token');
+            }
+
             const url = new URL(api);
             const params = {
                 search: search || '',
@@ -111,10 +116,10 @@ const withApi = (Injectable) => {
 
         _deleteTask = async (id) => {
             const { api, token } = config;
-            const { tasks } = this.state;
+            const { tasks: allTasks } = this.state;
 
             try {
-                if (!find(propEq('id', id))(tasks)) {
+                if (!find(propEq('id', id))(allTasks)) {
                     return;
                 }
                 const response = await fetch(`${api}/${id}`, {
