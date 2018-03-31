@@ -12,8 +12,16 @@ export default class TaskSearch extends Component {
         searchText: '',
     }
 
-    componentDidMount () {
+    componentWillMount () {
         const searchText = localStorage.getItem('search') || '';
+
+        this.setState(() => ({
+            searchText,
+        }));
+    }
+
+    componentDidMount () {
+        const { searchText } = this.state;
 
         this.props.fetchTasks(searchText);
     }

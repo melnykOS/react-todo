@@ -4,6 +4,10 @@
 + `yarn` or `npm i`
 + `yarn start` or `npm start`
 
-## c9 app url
-https://lectrum-todo-initabas.c9users.io/
 Port 8080
+
+## API, TOKEN path
+/src/helpers/config.js
+
+## c9 DEMO
+https://lectrum-todo-initabas.c9users.io/
