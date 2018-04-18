@@ -1,4 +1,5 @@
-# TODO APP REACT
+# TODO APP REACT-REDUX
+Branch: Redux
 
 ## To start
 + `yarn` or `npm i`
