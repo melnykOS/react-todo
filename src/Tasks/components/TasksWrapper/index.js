@@ -1,7 +1,9 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf } from 'prop-types';
+import { func, instanceOf, shape } from 'prop-types';
 import Immutable from 'immutable';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Styles from './TasksWrapper.scss';
 
@@ -9,18 +11,51 @@ import Styles from './TasksWrapper.scss';
 import TaskSearch from '../TaskSearch';
 import TaskInput from '../TaskInput';
 import TaskList from '../TaskList';
-import withApi from '../../TaskAPI';
+// import withApi from '../../TaskAPI';
+import { tasksActions } from 'Tasks/actions';
 
 // Instruments
 import Checkbox from 'theme/assets/Checkbox';
 import { config } from 'helpers';
 
-class TasksWrapper extends Component {
+const mapStateToProps = (state, props) => {
+    
+    // console.log('state: ', state, props);
+    return {
+        tasks:        state.tasks,
+        // feedFetching: state.ui.get('feedFetching'),
+        // authFetching: state.ui.get('authFetching'),
+        // profile:      state.profile,
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+
+    // console.log('dispatch: ', dispatch, props);
+    return {
+        actions: bindActionCreators({
+            ...tasksActions,
+            // fetchPosts: postsActions.fetchPosts,
+            // createPost: postsActions.createPost,
+            // deletePost: postsActions.deletePost,
+            // likePost: postsActions.likePost,
+            // dislikePost: postsActions.dislikePost,
+            // ...usersActions,
+            // fetchUsers: usersActions.fetchUsers,
+        }, dispatch),
+    }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
+
+export default class TasksWrapper extends Component {
     static propTypes = {
-        createTask: func.isRequired,
-        deleteTask: func.isRequired,
-        editTask:   func.isRequired,
-        fetchTasks: func.isRequired,
+        actions: shape({
+            createTask: func.isRequired,
+            deleteTask: func.isRequired,
+            editTask:   func.isRequired,
+            fetchTasks: func.isRequired,
+        }).isRequired,
         tasks:      instanceOf(Immutable.List).isRequired,
     };
 
@@ -56,7 +91,9 @@ class TasksWrapper extends Component {
     }
 
     render () {
-        const { fetchTasks, createTask, deleteTask, editTask, tasks } = this.props;
+        console.log(this.props)
+        const { actions, tasks } = this.props;
+        const { fetchTasks, createTask, deleteTask, editTask } = actions;
         const { completedAll } = this.state;
         const footerWrapper = tasks.size > 0
             ? <footer>
@@ -97,4 +134,4 @@ class TasksWrapper extends Component {
     }
 }
 
-export default withApi(TasksWrapper);
+// export default withApi(TasksWrapper);

@@ -29,16 +29,13 @@ export default class TaskInput extends Component {
         const { message } = this.state;
         const { createTask } = this.props;
 
-        validateCreateEditInput(message) &&
-            createTask({
-                message:   message.trim(),
-                completed: false,
-                favorite:  false,
-            }).then((val) => val &&
-                this.setState(() => ({
-                    message: '',
-                }))
-            );
+        if (validateCreateEditInput(message)) {
+            createTask(message.trim());
+            this.setState(() => ({
+                message: '',
+            }));
+        }
+
     };
 
     handleOnChange = (event) => {

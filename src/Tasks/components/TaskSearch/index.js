@@ -10,42 +10,42 @@ export default class TaskSearch extends Component {
     };
 
     state = {
-        searchText: '',
+        search: '',
     }
 
     componentWillMount () {
-        const searchText = localStorage.getItem('search') || '';
+        const search = localStorage.getItem('search') || '';
 
         this.setState(() => ({
-            searchText,
+            search,
         }));
     }
 
     componentDidMount () {
-        const { searchText } = this.state;
+        const { search } = this.state;
 
-        this.props.fetchTasks(searchText);
+        this.props.fetchTasks({ search });
     }
 
     searchTasks = (event) => {
-        const { value } = event.target;
+        const { value: search } = event.target;
 
         this.setState(() => ({
-            searchText: value,
+            search: search,
         }));
-        this.props.fetchTasks(value);
-        localStorage.setItem('search', value);
+        this.props.fetchTasks({ search, page: 1 });
+        localStorage.setItem('search', search);
     }
 
     render () {
-        const { searchText } = this.state;
+        const { search } = this.state;
 
         return (
             <input
                 className = { Styles.input }
                 placeholder = 'Поиск'
                 type = 'search'
-                value = { searchText }
+                value = { search }
                 onChange = { this.searchTasks }
             />
         );

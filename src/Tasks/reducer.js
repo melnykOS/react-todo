@@ -13,12 +13,13 @@ export default (state = initialState, action) => {
             return state.unshift(fromJS(action.payload));
             
         case types.DELETE_TASK_SUCCESS:
-            return state.filter((post) => post.get('id') !== action.payload);
+            console.log(action)
+            return state.filter((task) => task.get('id') !== action.payload);
 
-        case types.EDITE_TASK_SUCCESS:
-            const postIdToLike = state.findIndex((post) => post.get('id') === action.payload.postId);
+        case types.EDIT_TASK_SUCCESS:
+            const taskIdToLike = state.findIndex((task) => task.get('id') === action.payload.taskId);
             return state.updateIn(
-                [postIdToLike, 'likes'], (likedBy) => 
+                [taskIdToLike, 'likes'], (likedBy) => 
                     likedBy.push(action.payload.user)
             );
 
