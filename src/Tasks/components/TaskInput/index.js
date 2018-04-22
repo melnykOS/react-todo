@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { func } from 'prop-types';
 
 // Instruments
-import { validateCreateEditInput } from '../../helpers';
-import Styles from './TaskInputs.scss';
+import { validateCreateEditInput } from 'helpers';
+import Styles from './TaskInput.scss';
 
 export default class TaskInput extends Component {
     static propTypes = {
@@ -43,10 +43,11 @@ export default class TaskInput extends Component {
 
     handleOnChange = (event) => {
         const { value: message } = event.target;
-
+        validateCreateEditInput(message);
         this.setState(() => ({
             message,
         }));
+        
         localStorage.setItem('message', message);
     };
 
@@ -63,7 +64,7 @@ export default class TaskInput extends Component {
         return (
             <form onSubmit = { this.handleSubmit }>
                 <input
-                    className = { Styles.inputs }
+                    className = { Styles.input }
                     placeholder = 'Описание моей новой задачи'
                     type = 'message'
                     value = { message }

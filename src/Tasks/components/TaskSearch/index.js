@@ -1,7 +1,8 @@
 // Core
 import React, { Component } from 'react';
-import Styles from './TaskInputs.scss';
 import { func } from 'prop-types';
+
+import Styles from './TaskInput.scss';
 
 export default class TaskSearch extends Component {
     static propTypes = {
@@ -26,8 +27,8 @@ export default class TaskSearch extends Component {
         this.props.fetchTasks(searchText);
     }
 
-    searchTasks = (e) => {
-        const { value } = e.target;
+    searchTasks = (event) => {
+        const { value } = event.target;
 
         this.setState(() => ({
             searchText: value,
@@ -41,7 +42,7 @@ export default class TaskSearch extends Component {
 
         return (
             <input
-                className = { Styles.inputs }
+                className = { Styles.input }
                 placeholder = 'Поиск'
                 type = 'search'
                 value = { searchText }

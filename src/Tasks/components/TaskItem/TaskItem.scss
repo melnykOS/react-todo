@@ -1,4 +1,4 @@
-@import '../../theme/palette';
+@import 'src/theme/palette';
 
 .taskItem {
     display: flex;
@@ -41,6 +41,7 @@
 .completed {
     background-color: $paletteColor8;
     color: $paletteColor9;
+    text-decoration:  line-through;
 
     & > div:first-child {
         & input {

@@ -1,5 +1,4 @@
 // Core
-import { sortWith, descend, ascend, prop } from 'ramda';
 import { toast } from 'react-toastify';
 
 // Instruments
@@ -10,10 +9,9 @@ export { Validate } from './validate';
 
 let toastId = null;
 
-export const sortByFavComplete = sortWith([
-    ascend(prop('completed')),
-    descend(prop('favorite'))
-]);
+export const sortByFavComplete = (data) => data
+    .sortBy((e) => -e.get('favorite'))
+    .sortBy((e) => e.get('completed'));
 
 export const showError = (errorText, errorType) => {
     const type = errorType || 'error';

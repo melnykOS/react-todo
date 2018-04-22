@@ -1,4 +1,4 @@
-@import '../../theme/palette';
+@import 'src/theme/palette';
 
 .tasks {
     display: flex;
@@ -34,7 +34,7 @@
 
             input {
                 width: 21.5rem;
-                background-image: url('../../theme/assets/search-icon.svg');
+                background-image: url('theme/assets/search-icon.svg');
                 background-repeat: no-repeat;
                 background-size: 1.8rem 1.8rem;
                 background-position: 95% 50%;
@@ -64,7 +64,7 @@
                     color: $paletteColor2;
                     border: 0;
                     cursor: pointer;
-                    background-image: url('../../theme/assets/plus-icon.svg');
+                    background-image: url('theme/assets/plus-icon.svg');
                     backgorund-color: white;
                     background-repeat: no-repeat;
                     background-size: 1.8rem 1.8rem;

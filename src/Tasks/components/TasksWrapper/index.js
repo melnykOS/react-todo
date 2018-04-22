@@ -1,18 +1,19 @@
 // Core
 import React, { Component } from 'react';
+import { func, instanceOf } from 'prop-types';
+import Immutable from 'immutable';
+
 import Styles from './TasksWrapper.scss';
-import { findLast, propEq } from 'ramda';
-import { func, array } from 'prop-types';
 
 // Components
-import TaskSearch from './TaskSearch';
-import TaskInput from './TaskInput';
-import TaskList from './TaskList';
-import withApi from './TaskAPI';
+import TaskSearch from '../TaskSearch';
+import TaskInput from '../TaskInput';
+import TaskList from '../TaskList';
+import withApi from '../../TaskAPI';
 
 // Instruments
 import Checkbox from 'theme/assets/Checkbox';
-import { config } from '../../helpers';
+import { config } from 'helpers';
 
 class TasksWrapper extends Component {
     static propTypes = {
@@ -20,7 +21,7 @@ class TasksWrapper extends Component {
         deleteTask: func.isRequired,
         editTask:   func.isRequired,
         fetchTasks: func.isRequired,
-        tasks:      array.isRequired,
+        tasks:      instanceOf(Immutable.List).isRequired,
     };
 
     state = {
@@ -34,11 +35,10 @@ class TasksWrapper extends Component {
     handleCompleteAll = () => {
         const { completedAll } = this.state;
         const { editTask, tasks: tasksList } = this.props;
-        const tasks = tasksList.map((task) => {
-            task.completed = !completedAll;
-
-            return task;
-        });
+        const tasks = tasksList.map((task) =>
+            task.update((t) =>
+                t.set('completed', !completedAll))
+        );
 
         this.setState(() => ({
             completedAll: !completedAll,
@@ -48,7 +48,7 @@ class TasksWrapper extends Component {
 
     _isAllChecked = (tasks) => {
         const tasksList = tasks ? tasks : this.props.tasks;
-        const completedAll = findLast(propEq('completed', false))(tasksList);
+        const completedAll = !!tasksList.findLast((task) => task.get('completed') === false);
 
         this.setState(() => ({
             completedAll: !completedAll,
@@ -58,7 +58,7 @@ class TasksWrapper extends Component {
     render () {
         const { fetchTasks, createTask, deleteTask, editTask, tasks } = this.props;
         const { completedAll } = this.state;
-        const footerWrapper = tasks.length > 0
+        const footerWrapper = tasks.size > 0
             ? <footer>
                 <Checkbox
                     checked = { completedAll }

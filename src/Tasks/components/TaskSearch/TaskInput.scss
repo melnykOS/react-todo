@@ -1,0 +1,29 @@
+@import 'src/theme/palette';
+
+.input {
+    height: 4.2rem;
+    padding: 0 1.4rem;
+    caret-color: $paletteColor3;
+    border-radius: 0.5rem;
+    border-width: 0.1rem;
+    border-style: solid;
+    border-color: $paletteColor6;
+    outline: none;
+    transition: border-color 0.1s ease-in-out;
+    background-color: $paletteColor2;
+    font-size: 2rem;
+
+    &::placeholder {
+        font-size: 2rem;
+        transition: color 0.1s ease-in-out;
+        color: $paletteColor6;
+    }
+
+    &:focus {
+        border-color: $paletteColor3;
+
+        &::placeholder {
+            color: transparent;
+        }
+    }
+}

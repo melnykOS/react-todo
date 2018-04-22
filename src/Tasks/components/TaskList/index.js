@@ -1,10 +1,11 @@
 // Core
 import React, { Component } from 'react';
-import { func, array } from 'prop-types';
+import { func, instanceOf } from 'prop-types';
 import FlipMove from 'react-flip-move';
+import { List } from 'immutable'
 
 // Components
-import TaskItem from './TaskItem';
+import TaskItem from '../TaskItem';
 
 // Instruments
 import Styles from './TaskList.scss';
@@ -14,7 +15,7 @@ export default class TaskList extends Component {
         deleteTask:   func.isRequired,
         editTask:     func.isRequired,
         isAllChecked: func.isRequired,
-        tasks:        array.isRequired,
+        tasks:        instanceOf(List).isRequired,
     };
 
     state = {
@@ -41,21 +42,22 @@ export default class TaskList extends Component {
         const { editTask, tasks, deleteTask, isAllChecked } = this.props;
         const { editable, loading } = this.state;
 
-        const taskList = tasks.map(({ id, message, completed, favorite }) => (
+        const taskList = tasks.map((task) => (
             <TaskItem
-                completed = { completed }
+                completed = { task.get('completed') }
                 deleteTask = { deleteTask }
                 editable = { editable }
                 editTask = { editTask }
-                favorite = { favorite }
-                id = { id }
+                favorite = { task.get('favorite') }
+                id = { task.get('id') }
                 isAllChecked = { isAllChecked }
-                key = { id }
-                message = { message }
+                key = { task.get('id') }
+                message = { task.get('message') }
                 setEditable = { this._setEditable }
             />
         ));
-        const taskListWrapper = Array.isArray(taskList) && taskList.length > 0
+        // Array.isArray(taskList) && 
+        const taskListWrapper = taskList.size > 0
             ? <FlipMove duration = { 450 } easing = 'ease-out'>
                 { taskList }
             </FlipMove>

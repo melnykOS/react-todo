@@ -1,14 +1,14 @@
 // Core
 import React, { Component } from 'react';
-import { forEachObjIndexed, propEq, find } from 'ramda';
 
+import { fromJS, Map } from 'immutable';
 // Instruments
-import { config, sortByFavComplete, showError } from '../../helpers';
+import { config, sortByFavComplete, showError } from 'helpers';
 
 const withApi = (Injectable) => {
     class API extends Component {
         state = {
-            tasks: [],
+            tasks: fromJS([]),
         }
 
         _fetchTasks = async (search, page, size) => {
@@ -25,7 +25,7 @@ const withApi = (Injectable) => {
                 size:   size || 10,
             };
 
-            forEachObjIndexed((v, k) => url.searchParams.append(k, v), params);
+            Object.keys((key) => url.searchParams.append(key, params[key]));
             try {
                 const response = await fetch(url, {
                     method:  'GET',
@@ -41,7 +41,7 @@ const withApi = (Injectable) => {
                 const { data } = await response.json();
 
                 this.setState(() => ({
-                    tasks: sortByFavComplete([...data]),
+                    tasks: sortByFavComplete(fromJS([...data])),
                 }));
 
                 return true;
@@ -74,7 +74,7 @@ const withApi = (Injectable) => {
                 }
 
                 this.setState(({ tasks }) => ({
-                    tasks: sortByFavComplete([data, ...tasks]),
+                    tasks: sortByFavComplete(fromJS([data, ...tasks])),
                 }));
 
                 return true;
@@ -101,7 +101,7 @@ const withApi = (Injectable) => {
 
                 data.forEach((el) => {
                     this.setState(({ tasks }) => ({
-                        tasks: sortByFavComplete(tasks.map((task) => task.id === el.id ? el : task)),
+                        tasks: sortByFavComplete(fromJS(tasks).map((task) => task.get('id') === el.id ? Map(el) : task)),
                     }));
                 });
                 callback ? callback() : null;
@@ -119,7 +119,7 @@ const withApi = (Injectable) => {
             const { tasks: allTasks } = this.state;
 
             try {
-                if (!find(propEq('id', id))(allTasks)) {
+                if (!allTasks.find((task) => task.get('id') === id)) {
                     return;
                 }
                 const response = await fetch(`${api}/${id}`, {
@@ -134,7 +134,7 @@ const withApi = (Injectable) => {
                 }
 
                 this.setState(({ tasks }) => ({
-                    tasks: tasks.filter((task) => task.id !== id),
+                    tasks: fromJS(tasks).filter((task) => task.get('id') !== id),
                 }));
 
                 return true;

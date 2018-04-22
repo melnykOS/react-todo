@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { func, string, bool } from 'prop-types';
 
 //Components
-import TaskEdit from './TaskEdit';
+import TaskEdit from '../TaskEdit';
 
 // Instruments
-import { validateCreateEditInput, showError } from '../../helpers';
+import { validateCreateEditInput, showError } from 'helpers';
 import Styles from './TaskItem.scss';
 import Checkbox from 'theme/assets/Checkbox';
 import Delete from 'theme/assets/Delete';
@@ -76,6 +76,7 @@ export default class TaskItem extends Component {
     render () {
         const { id, message, completed, favorite, editable, setEditable } = this.props;
         const showEditField = editable === id;
+        const isComplete = completed ? Styles.completed : '';
         const messageWrapper = showEditField
             ? <TaskEdit
                 completed = { completed }
@@ -89,7 +90,7 @@ export default class TaskItem extends Component {
             : message;
 
         return (
-            <li className = { Styles.taskItem }>
+            <li className = { `${Styles.taskItem} ${isComplete}` }>
                 <div>
                     <Checkbox
                         checked = { completed }
