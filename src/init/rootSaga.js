@@ -7,6 +7,6 @@ export function* rootSaga () {
         tasks.createTaskWatcher(),
         tasks.deleteTaskWatcher(),
         tasks.fetchTasksWatcher(),
-        // tasks.editeTaskWatcher(),
+        tasks.editTaskWatcher(),
     ]);
 }

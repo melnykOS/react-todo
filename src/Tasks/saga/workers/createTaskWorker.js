@@ -18,10 +18,10 @@ export function* createTaskWorker ({ payload: message }) {
             },
             body: JSON.stringify({ message }),
         });
-        const { data: task } = yield call([response, response.json]);
+        const { data: task, error } = yield call([response, response.json]);
 
         if (response.status !== 200) {
-            throw new Error('Create task error');
+            throw new Error(error);
         }
         yield put(tasksActions.createTaskSuccess(task));
         // this.setState(({ tasks }) => ({

@@ -43,16 +43,16 @@ export const tasksActions = Object.freeze({
         error:   true,
     }),
 
-    editTask: (taskId) => ({
-        type:    types.LIKE_TASK,
-        payload: taskId,
+    editTask: (data) => ({
+        type:    types.EDIT_TASK,
+        payload: data,
     }),
-    editTaskSuccess: (editedTaskIds) => ({
-        type:    types.LIKE_TASK_SUCCESS,
-        payload: editedTaskIds,
+    editTaskSuccess: (data) => ({
+        type:    types.EDIT_TASK_SUCCESS,
+        payload: data,
     }), 
     editTaskFail: (error) => ({
-        type:    types.LIKE_TASK_FAIL,
+        type:    types.EDIT_TASK_FAIL,
         payload: error,
         error:   true,
     }),

@@ -4,7 +4,7 @@ import types from '../types';
 import { fetchTasksWorker,
         createTaskWorker,
         deleteTaskWorker,
-        // editeTaskWorker,
+        editTaskWorker,
 } from './workers';
 
 export default Object.freeze({
@@ -17,7 +17,7 @@ export default Object.freeze({
     * deleteTaskWatcher () {
         yield takeEvery(types.DELETE_TASK, deleteTaskWorker);
     },
-    // * editeTaskWatcher () {
-    //     yield takeEvery(types.LIKE_TASK, editeTaskWorker);
-    // },
+    * editTaskWatcher () {
+        yield takeEvery(types.EDIT_TASK, editTaskWorker);
+    },
 });
