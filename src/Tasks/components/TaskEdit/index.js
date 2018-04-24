@@ -7,12 +7,12 @@ import Styles from './TaskEdit.scss';
 
 export default class TaskEdit extends Component {
     static propTypes = {
-        completed:   bool.isRequired,
-        editTask:    func.isRequired,
-        favorite:    bool.isRequired,
-        id:          string.isRequired,
-        message:     string.isRequired,
-        setEditable: func.isRequired,
+        completed:       bool.isRequired,
+        editTask:        func.isRequired,
+        favorite:        bool.isRequired,
+        id:              string.isRequired,
+        message:         string.isRequired,
+        setTaskEditable: func.isRequired,
     };
 
     state = {
@@ -36,12 +36,12 @@ export default class TaskEdit extends Component {
 
     handleEscape = (event) => {
         if (event.key === 'Escape') {
-            this.props.setEditable();
+            this.props.setTaskEditable();
         }
     }
 
-    handleOnChange = (e) => {
-        const { value: message } = e.target;
+    handleOnChange = (event) => {
+        const { value: message } = event.target;
 
         this.props.setMessage(message);
         this.setState(() => ({

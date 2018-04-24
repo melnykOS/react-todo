@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf } from 'prop-types';
+import { func, instanceOf, string } from 'prop-types';
 import FlipMove from 'react-flip-move';
 import { List } from 'immutable'
 
@@ -12,14 +12,13 @@ import Styles from './TaskList.scss';
 
 export default class TaskList extends Component {
     static propTypes = {
-        deleteTask:   func.isRequired,
-        editTask:     func.isRequired,
-        isAllChecked: func.isRequired,
-        tasks:        instanceOf(List).isRequired,
+        deleteTask:        func.isRequired,
+        editTask:          func.isRequired,
+        setTasksCompleted: func.isRequired,
+        tasks:             instanceOf(List).isRequired,
     };
 
     state = {
-        editable: '',
         loading:  '...',
     }
 
@@ -31,16 +30,9 @@ export default class TaskList extends Component {
         }
     }
 
-    _setEditable = (id) => {
-        console.log('onClick');
-        this.setState(() => ({
-            editable: id ? id : '',
-        }));
-    }
-
     render () {
-        const { editTask, tasks, deleteTask, isAllChecked } = this.props;
-        const { editable, loading } = this.state;
+        const { editTask, tasks, deleteTask, editable, setTaskEditable } = this.props;
+        const { loading } = this.state;
 
         const taskList = tasks.map((task) => (
             <TaskItem
@@ -50,13 +42,12 @@ export default class TaskList extends Component {
                 editTask = { editTask }
                 favorite = { task.get('favorite') }
                 id = { task.get('id') }
-                isAllChecked = { isAllChecked }
+                // isAllChecked = { isAllChecked }
                 key = { task.get('id') }
                 message = { task.get('message') }
-                setEditable = { this._setEditable }
+                setTaskEditable = { setTaskEditable }
             />
         ));
-        // Array.isArray(taskList) && 
         const taskListWrapper = taskList.size > 0
             ? <FlipMove duration = { 450 } easing = 'ease-out'>
                 { taskList }

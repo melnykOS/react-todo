@@ -15,14 +15,13 @@ import Star from 'theme/assets/Star';
 
 export default class TaskItem extends Component {
     static propTypes = {
-        completed:    bool.isRequired,
-        editable:     string.isRequired,
-        editTask:     func.isRequired,
-        favorite:     bool.isRequired,
-        id:           string.isRequired,
-        isAllChecked: func.isRequired,
-        message:      string.isRequired,
-        setEditable:  func.isRequired,
+        completed:       bool.isRequired,
+        editable:        string.isRequired,
+        editTask:        func.isRequired,
+        favorite:        bool.isRequired,
+        id:              string.isRequired,
+        message:         string.isRequired,
+        setTaskEditable: func.isRequired,
     };
 
     state = {
@@ -36,14 +35,15 @@ export default class TaskItem extends Component {
     }
 
     _editTask = (message) => {
-        const { id, editTask, completed, favorite, setEditable } = this.props;
+        const { id, editTask, completed, favorite, setTaskEditable } = this.props;
 
         validateCreateEditInput(message) &&
-            editTask([{ id, message, completed, favorite }], setEditable);
+            editTask([{ id, message, completed, favorite }]) &&
+            setTaskEditable();
     };
 
     handleEdit = () => {
-        const { id, completed, setEditable, editable } = this.props;
+        const { id, completed, setTaskEditable, editable } = this.props;
         const { message } = this.state;
 
         if (editable === id) {
@@ -51,14 +51,14 @@ export default class TaskItem extends Component {
         } else if (completed) {
             showError('Вы не можете редактировать завершенную задачу!', 'warning');
         } else if (!completed && editable !== id) {
-            setEditable(id);
+            setTaskEditable(id);
         }
     };
 
     handleComplete = () => {
-        const { id, editTask, completed, favorite, message, isAllChecked } = this.props;
+        const { id, editTask, completed, favorite, message } = this.props;
 
-        editTask([{ id, message, completed: !completed, favorite }], isAllChecked);
+        editTask([{ id, message, completed: !completed, favorite }]);
     }
 
     handleFav = () => {
@@ -74,7 +74,7 @@ export default class TaskItem extends Component {
     };
 
     render () {
-        const { id, message, completed, favorite, editable, setEditable } = this.props;
+        const { id, message, completed, favorite, editable, setTaskEditable } = this.props;
         const showEditField = editable === id;
         const isComplete = completed ? Styles.completed : '';
         const messageWrapper = showEditField
@@ -84,10 +84,10 @@ export default class TaskItem extends Component {
                 favorite = { favorite }
                 id = { id }
                 message = { message }
-                setEditable = { setEditable }
+                setTaskEditable = { setTaskEditable }
                 setMessage = { this._setMessage }
             />
-            : message;
+            : <span onClick = { this.handleEdit }> { message } </span>;
 
         return (
             <li className = { `${Styles.taskItem} ${isComplete}` }>

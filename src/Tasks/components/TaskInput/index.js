@@ -1,6 +1,7 @@
 // Core
 import React, { Component } from 'react';
 import { func } from 'prop-types';
+import { Form, Control } from 'react-redux-form';
 
 // Instruments
 import { validateCreateEditInput } from 'helpers';
@@ -24,18 +25,14 @@ export default class TaskInput extends Component {
         }));
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        const { message } = this.state;
+    handleSubmit = (task) => {
+        // const { message } = this.state;
         const { createTask } = this.props;
-
-        if (validateCreateEditInput(message)) {
-            createTask(message.trim());
-            this.setState(() => ({
-                message: '',
-            }));
-        }
-
+        console.log(task)
+        createTask(task.message.trim());
+            // this.setState(() => ({
+            //     message: '',
+            // }));
     };
 
     handleOnChange = (event) => {
@@ -51,7 +48,10 @@ export default class TaskInput extends Component {
     handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
-            this.handleSubmit(event);
+            const task = {
+                message: event.target.value,
+            }
+            this.handleSubmit(task);
         }
     };
 
@@ -59,17 +59,21 @@ export default class TaskInput extends Component {
         const { message } = this.state;
 
         return (
-            <form onSubmit = { this.handleSubmit }>
-                <input
+            <Form 
+                onSubmit = { this.handleSubmit }
+                model = 'taskForms.create'>
+                <Control
+                    id = 'taskForms.create.message'
+                    model = 'taskForms.create.message'
                     className = { Styles.input }
                     placeholder = 'Описание моей новой задачи'
                     type = 'message'
-                    value = { message }
+                    // value = { message }
                     onChange = { this.handleOnChange }
                     onKeyPress = { this.handleKeyPress }
                 />
                 <button>Добавить задачу</button>
-            </form>
+            </Form>
         );
     }
 }

@@ -1,13 +1,14 @@
 import { call, put } from 'redux-saga/effects';
+import { actions } from 'react-redux-form';
 
-import { config } from 'helpers';
+import { config, validateCreateEditInput } from 'helpers';
 import { tasksActions } from 'Tasks/actions';
 
 export function* createTaskWorker ({ payload: message }) {
     const { api, token } = config;
 
-    if (!message) {
-        return false;
+    if (!validateCreateEditInput(message)) {
+        return yield false;
     }
     try {
         const response = yield call(fetch, api, {
@@ -24,15 +25,9 @@ export function* createTaskWorker ({ payload: message }) {
             throw new Error(error);
         }
         yield put(tasksActions.createTaskSuccess(task));
-        // this.setState(({ tasks }) => ({
-        //     tasks: sortByFavComplete(fromJS([data, ...tasks])),
-        // }));
-
-        return true;
+        yield put(actions.reset('taskForms.create'));
     } catch (error) {
         yield put(tasksActions.createTaskFail(error));
         // showError(error.message);
-
-        return false;
     }
-};
+}

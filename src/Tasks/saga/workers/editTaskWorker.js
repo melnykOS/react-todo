@@ -20,13 +20,7 @@ export function* editTaskWorker ({ payload: body }) {
                 if (response.status !== 200) {
                     throw new Error(message);
                 }
-                
-                // data.forEach((el) => {
-                //     this.setState(({ tasks }) => ({
-                //         tasks: sortByFavComplete(fromJS(tasks).map((task) => task.get('id') === el.id ? Map(el) : task)),
-                //     }));
-                // });
-                // callback ? callback() : null;
+
                 yield put(tasksActions.editTaskSuccess(tasks));
                 return true;
             } catch (error) {

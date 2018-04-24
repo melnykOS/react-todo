@@ -4,6 +4,7 @@ import { func, instanceOf, shape } from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { actions } from 'react-redux-form';
 
 import Styles from './TasksWrapper.scss';
 
@@ -11,7 +12,6 @@ import Styles from './TasksWrapper.scss';
 import TaskSearch from '../TaskSearch';
 import TaskInput from '../TaskInput';
 import TaskList from '../TaskList';
-// import withApi from '../../TaskAPI';
 import { tasksActions } from 'Tasks/actions';
 
 // Instruments
@@ -19,35 +19,26 @@ import Checkbox from 'theme/assets/Checkbox';
 import { config } from 'helpers';
 
 const mapStateToProps = (state, props) => {
-    
-    // console.log('state: ', state, props);
+    console.log(state)
     return {
-        tasks:        state.tasks,
-        // feedFetching: state.ui.get('feedFetching'),
-        // authFetching: state.ui.get('authFetching'),
-        // profile:      state.profile,
-    }
-}
+        tasks:        state.tasks.get('list'),
+        editable:     state.tasks.get('editable'),
+        completedAll: state.tasks.get('completedAll'),
+        search:       state.taskForms.search.text,
+    };
+};
 
 const mapDispatchToProps = (dispatch, props) => {
 
-    // console.log('dispatch: ', dispatch, props);
     return {
         actions: bindActionCreators({
             ...tasksActions,
-            // fetchPosts: postsActions.fetchPosts,
-            // createPost: postsActions.createPost,
-            // deletePost: postsActions.deletePost,
-            // likePost: postsActions.likePost,
-            // dislikePost: postsActions.dislikePost,
-            // ...usersActions,
-            // fetchUsers: usersActions.fetchUsers,
+            actions,
         }, dispatch),
-    }
-}
+    };
+};
 
 @connect(mapStateToProps, mapDispatchToProps)
-
 export default class TasksWrapper extends Component {
     static propTypes = {
         actions: shape({
@@ -56,45 +47,27 @@ export default class TasksWrapper extends Component {
             editTask:   func.isRequired,
             fetchTasks: func.isRequired,
         }).isRequired,
-        tasks:      instanceOf(Immutable.List).isRequired,
+        tasks: instanceOf(Immutable.List).isRequired,
     };
 
-    state = {
-        completedAll: null,
-    }
-
     componentWillReceiveProps (nextProps) {
-        this._isAllChecked(nextProps.tasks);
+        const { actions } = this.props;
+        actions.setTasksCompleted(nextProps.tasks);
     }
 
     handleCompleteAll = () => {
-        const { completedAll } = this.state;
-        const { editTask, tasks: tasksList } = this.props;
+        const { actions, completedAll, tasks: tasksList } = this.props;
         const tasks = tasksList.map((task) =>
             task.update((t) =>
                 t.set('completed', !completedAll))
         );
 
-        this.setState(() => ({
-            completedAll: !completedAll,
-        }));
-        editTask(tasks);
-    }
-
-    _isAllChecked = (tasks) => {
-        const tasksList = tasks ? tasks : this.props.tasks;
-        const completedAll = !!tasksList.findLast((task) => task.get('completed') === false);
-
-        this.setState(() => ({
-            completedAll: !completedAll,
-        }));
+        actions.editTask(tasks);
     }
 
     render () {
-        console.log(this.props)
-        const { actions, tasks } = this.props;
-        const { fetchTasks, createTask, deleteTask, editTask } = actions;
-        const { completedAll } = this.state;
+        const { actions: taskActions, tasks, editable, completedAll, search } = this.props;
+        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted } = taskActions;
         const footerWrapper = tasks.size > 0
             ? <footer>
                 <Checkbox
@@ -114,6 +87,7 @@ export default class TasksWrapper extends Component {
                         <h1> { config.title }</h1>
                         <TaskSearch
                             fetchTasks = { fetchTasks }
+                            search = { search }
                         />
                     </header>
                     <section>
@@ -123,8 +97,10 @@ export default class TasksWrapper extends Component {
                         <TaskList
                             deleteTask = { deleteTask }
                             editTask = { editTask }
-                            isAllChecked = { this._isAllChecked }
+                            editable = { editable }
+                            setTasksCompleted = { setTasksCompleted }
                             tasks = { tasks }
+                            setTaskEditable = { setTaskEditable }
                         />
                     </section>
                     { footerWrapper }
@@ -133,5 +109,3 @@ export default class TasksWrapper extends Component {
         );
     }
 }
-
-// export default withApi(TasksWrapper);

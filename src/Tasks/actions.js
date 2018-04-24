@@ -56,4 +56,33 @@ export const tasksActions = Object.freeze({
         payload: error,
         error:   true,
     }),
+    
+    setTaskEditable: (id) => ({
+        type:    types.SET_TASK_EDITABLE,
+        payload: id,
+    }),
+
+    setTasksCompleted: (id) => ({
+        type:    types.SET_TASKS_COMPLETED,
+        payload: id,
+    }),
+    
+    setInputCreate: (message) => ({
+        type:    types.SET_INPUT_CREATE,
+        payload: message,
+    }),
+
+    setInputEdit: (message) => ({
+        type:    types.SET_INPUT_EDIT,
+        payload: message,
+    }),
+    
+    setSearch: (text) => ({
+        type:    types.SET_SEARCH,
+        payload: text,
+    }),
+
+    getSearch: () => ({
+        type: types.SET_SEARCH,
+    }),
 });
