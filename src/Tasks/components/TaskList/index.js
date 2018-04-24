@@ -1,8 +1,8 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf, string } from 'prop-types';
+import { func, instanceOf } from 'prop-types';
 import FlipMove from 'react-flip-move';
-import { List } from 'immutable'
+import { List } from 'immutable';
 
 // Components
 import TaskItem from '../TaskItem';
@@ -31,20 +31,21 @@ export default class TaskList extends Component {
     }
 
     render () {
-        const { editTask, tasks, deleteTask, editable, setTaskEditable } = this.props;
+        const { editTask, tasks, deleteTask, editable, setTaskEditable, formActions, edit } = this.props;
         const { loading } = this.state;
 
         const taskList = tasks.map((task) => (
             <TaskItem
                 completed = { task.get('completed') }
                 deleteTask = { deleteTask }
+                edit = { edit }
                 editable = { editable }
                 editTask = { editTask }
                 favorite = { task.get('favorite') }
                 id = { task.get('id') }
-                // isAllChecked = { isAllChecked }
                 key = { task.get('id') }
                 message = { task.get('message') }
+                formActions = { formActions }
                 setTaskEditable = { setTaskEditable }
             />
         ));

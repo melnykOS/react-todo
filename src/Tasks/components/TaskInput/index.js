@@ -12,37 +12,16 @@ export default class TaskInput extends Component {
         createTask: func.isRequired,
     };
 
-    state = {
-        message: '',
-        error:   '',
-    }
-
-    componentWillMount () {
-        const message = localStorage.getItem('message') || '';
-
-        this.setState(() => ({
-            message,
-        }));
-    }
-
     handleSubmit = (task) => {
-        // const { message } = this.state;
         const { createTask } = this.props;
-        console.log(task)
+
         createTask(task.message.trim());
-            // this.setState(() => ({
-            //     message: '',
-            // }));
     };
 
     handleOnChange = (event) => {
         const { value: message } = event.target;
+
         validateCreateEditInput(message);
-        this.setState(() => ({
-            message,
-        }));
-        
-        localStorage.setItem('message', message);
     };
 
     handleKeyPress = (event) => {
@@ -50,25 +29,24 @@ export default class TaskInput extends Component {
             event.preventDefault();
             const task = {
                 message: event.target.value,
-            }
+            };
+
             this.handleSubmit(task);
         }
     };
 
     render () {
-        const { message } = this.state;
 
         return (
-            <Form 
-                onSubmit = { this.handleSubmit }
-                model = 'taskForms.create'>
+            <Form
+                model = 'taskForms.create'
+                onSubmit = { this.handleSubmit }>
                 <Control
+                    className = { Styles.input }
                     id = 'taskForms.create.message'
                     model = 'taskForms.create.message'
-                    className = { Styles.input }
                     placeholder = 'Описание моей новой задачи'
                     type = 'message'
-                    // value = { message }
                     onChange = { this.handleOnChange }
                     onKeyPress = { this.handleKeyPress }
                 />

@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 
 import { config } from 'helpers';
 import { tasksActions } from 'Tasks/actions';
@@ -19,7 +19,6 @@ export function* fetchTasksWorker ({ payload }) {
     };
 
     Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
-    console.log(url)
     try {
         const response = yield call(fetch, url, {
             method:  'GET',
@@ -35,14 +34,7 @@ export function* fetchTasksWorker ({ payload }) {
         }
 
         yield put(tasksActions.fetchTasksSuccess(tasks));
-        // this.setState(() => ({
-        //     tasks: sortByFavComplete(fromJS([...data])),
-        // }));
-
-        // return true;
     } catch (error) {
         yield put(tasksActions.fetchTasksFail(error));
-
-        // return false;
     }
-};
+}

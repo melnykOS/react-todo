@@ -2,9 +2,9 @@ import { takeEvery } from 'redux-saga/effects';
 
 import types from '../types';
 import { fetchTasksWorker,
-        createTaskWorker,
-        deleteTaskWorker,
-        editTaskWorker,
+    createTaskWorker,
+    deleteTaskWorker,
+    editTaskWorker
 } from './workers';
 
 export default Object.freeze({

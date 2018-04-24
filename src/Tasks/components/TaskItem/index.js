@@ -24,15 +24,15 @@ export default class TaskItem extends Component {
         setTaskEditable: func.isRequired,
     };
 
-    state = {
-        message: '',
-    }
+    // state = {
+    //     message: '',
+    // }
 
-    _setMessage = (message) => {
-        this.setState(() => ({
-            message,
-        }));
-    }
+    // _setMessage = (message) => {
+    //     this.setState(() => ({
+    //         message,
+    //     }));
+    // }
 
     _editTask = (message) => {
         const { id, editTask, completed, favorite, setTaskEditable } = this.props;
@@ -43,11 +43,11 @@ export default class TaskItem extends Component {
     };
 
     handleEdit = () => {
-        const { id, completed, setTaskEditable, editable } = this.props;
-        const { message } = this.state;
+        const { id, completed, setTaskEditable, editable, edit } = this.props;
+        // const { message } = this.state;
 
         if (editable === id) {
-            this._editTask(message);
+            this._editTask(edit);
         } else if (completed) {
             showError('Вы не можете редактировать завершенную задачу!', 'warning');
         } else if (!completed && editable !== id) {
@@ -74,16 +74,18 @@ export default class TaskItem extends Component {
     };
 
     render () {
-        const { id, message, completed, favorite, editable, setTaskEditable } = this.props;
+        const { id, message, completed, favorite, editable, setTaskEditable, formActions, edit } = this.props;
         const showEditField = editable === id;
         const isComplete = completed ? Styles.completed : '';
         const messageWrapper = showEditField
             ? <TaskEdit
                 completed = { completed }
+                edit = { edit }
                 editTask = { this._editTask }
                 favorite = { favorite }
                 id = { id }
                 message = { message }
+                formActions = { formActions }
                 setTaskEditable = { setTaskEditable }
                 setMessage = { this._setMessage }
             />

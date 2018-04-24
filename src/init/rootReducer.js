@@ -6,5 +6,5 @@ import { combineReducers } from 'redux';
 import * as tasks from 'Tasks/reducer';
 
 export const rootReducer = combineReducers({
-    ...tasks
+    ...tasks,
 });

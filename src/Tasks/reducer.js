@@ -9,7 +9,7 @@ const initialState = Map({
     list:         List([]),
     editable:     '',
     completedAll: null,
-    search:       ''
+    search:       '',
 });
 
 export const tasks = (state = initialState, action) => {
@@ -18,7 +18,7 @@ export const tasks = (state = initialState, action) => {
             return state.set('list', sortByFavComplete(fromJS(action.payload)));
 
         case types.CREATE_TASK_SUCCESS:
-            return state.update('list', (list) => list.unshift(fromJS(action.payload)));
+            return state.update('list', (list) => sortByFavComplete(list.unshift(fromJS(action.payload))));
 
         case types.DELETE_TASK_SUCCESS:
             return state.update('list', (list) => list.filter((task) =>
@@ -31,6 +31,7 @@ export const tasks = (state = initialState, action) => {
                 return state.update('list', (list) => sortByFavComplete(list.map((task) =>
                     task.get('id') === newTask.id ? Map(newTask) : task)));
             }
+
             return state.set('list', sortByFavComplete(fromJS(action.payload)));
 
         case types.SET_TASK_EDITABLE:
@@ -56,6 +57,9 @@ export const taskForms = combineForms({
         message: '',
     },
     search: {
-        text: 'l',
+        text: '',
     },
+    edit: {
+        message: '',
+    }
 }, 'taskForms');

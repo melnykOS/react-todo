@@ -4,7 +4,7 @@ import { func, instanceOf, shape } from 'prop-types';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions } from 'react-redux-form';
+import { actions as formActions } from 'react-redux-form';
 
 import Styles from './TasksWrapper.scss';
 
@@ -17,26 +17,25 @@ import { tasksActions } from 'Tasks/actions';
 // Instruments
 import Checkbox from 'theme/assets/Checkbox';
 import { config } from 'helpers';
+console.log(formActions);
+console.log(tasksActions);
+const mapStateToProps = (state) => ({
+    tasks:        state.tasks.get('list'),
+    editable:     state.tasks.get('editable'),
+    completedAll: state.tasks.get('completedAll'),
+    search:       state.taskForms.search.text,
+    message:      state.taskForms.create.message,
+    edit:         state.taskForms.edit.message,
+});
 
-const mapStateToProps = (state, props) => {
-    console.log(state)
-    return {
-        tasks:        state.tasks.get('list'),
-        editable:     state.tasks.get('editable'),
-        completedAll: state.tasks.get('completedAll'),
-        search:       state.taskForms.search.text,
-    };
-};
-
-const mapDispatchToProps = (dispatch, props) => {
-
-    return {
-        actions: bindActionCreators({
-            ...tasksActions,
-            actions,
-        }, dispatch),
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    actions: bindActionCreators({
+        ...tasksActions,
+    }, dispatch),
+    formActions: bindActionCreators({
+        ...formActions
+    }, dispatch),
+});
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class TasksWrapper extends Component {
@@ -52,6 +51,7 @@ export default class TasksWrapper extends Component {
 
     componentWillReceiveProps (nextProps) {
         const { actions } = this.props;
+
         actions.setTasksCompleted(nextProps.tasks);
     }
 
@@ -66,8 +66,9 @@ export default class TasksWrapper extends Component {
     }
 
     render () {
-        const { actions: taskActions, tasks, editable, completedAll, search } = this.props;
-        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted } = taskActions;
+        console.log(this.props)
+        const { actions, tasks, editable, completedAll, search, edit, formActions } = this.props;
+        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted } = actions;
         const footerWrapper = tasks.size > 0
             ? <footer>
                 <Checkbox
@@ -96,11 +97,13 @@ export default class TasksWrapper extends Component {
                         />
                         <TaskList
                             deleteTask = { deleteTask }
-                            editTask = { editTask }
+                            edit = { edit }
                             editable = { editable }
-                            setTasksCompleted = { setTasksCompleted }
+                            editTask = { editTask }
                             tasks = { tasks }
+                            formActions = { formActions }
                             setTaskEditable = { setTaskEditable }
+                            setTasksCompleted = { setTasksCompleted }
                         />
                     </section>
                     { footerWrapper }
