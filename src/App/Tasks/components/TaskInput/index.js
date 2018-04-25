@@ -18,13 +18,9 @@ export default class TaskInput extends Component {
         createTask(task.message.trim());
     };
 
-    handleOnChange = (event) => {
+    handleKeyPress = (event) => {
         const { value: message } = event.target;
 
-        validateCreateEditInput(message);
-    };
-
-    handleKeyPress = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             const task = {
@@ -32,6 +28,8 @@ export default class TaskInput extends Component {
             };
 
             this.handleSubmit(task);
+        } else if (message && !validateCreateEditInput(message)) {
+            event.preventDefault();
         }
     };
 
@@ -47,7 +45,6 @@ export default class TaskInput extends Component {
                     model = 'taskForms.create.message'
                     placeholder = 'Описание моей новой задачи'
                     type = 'message'
-                    onChange = { this.handleOnChange }
                     onKeyPress = { this.handleKeyPress }
                 />
                 <button>Добавить задачу</button>

@@ -5,28 +5,20 @@ import { Form, Control } from 'react-redux-form';
 
 // Instruments
 import Styles from './TaskEdit.scss';
+import { validateCreateEditInput } from 'helpers';
 
 export default class TaskEdit extends Component {
     static propTypes = {
         completed:       bool.isRequired,
         editTask:        func.isRequired,
         favorite:        bool.isRequired,
-        // formActions:     func.isRequired,
         id:              string.isRequired,
-        message:         string.isRequired,
         setTaskEditable: func.isRequired,
     };
 
-    state = {
-        message: '',
-    }
-
     componentWillMount () {
-        const { message, setMessage, formActions } = this.props;
-        
-        // this.setState(() => ({ message }));
-        // setMessage(message);
-        console.log(formActions)
+        const { message, formActions } = this.props;
+
         formActions.change('taskForms.edit.message', message);
     }
 
@@ -44,25 +36,15 @@ export default class TaskEdit extends Component {
         }
     }
 
-    handleOnChange = (event) => {
-        const { value: message } = event.target;
-
-        // this.props.setMessage(message);
-        // this.setState(() => ({
-        //     message,
-        // }));
-    };
-
     handleKeyPress = (event) => {
-        // const { message } = this.state;
+        const { value: message } = event.target;
+        const { editTask } = this.props;
 
         if (event.key === 'Enter') {
             event.preventDefault();
-            const task = {
-                message: event.target.value,
-            };
-            console.log(task)
-            this.props.editTask(event.target.value);
+            editTask(message);
+        } else if (message && !validateCreateEditInput(message)) {
+            event.preventDefault();
         }
     };
 
@@ -73,7 +55,6 @@ export default class TaskEdit extends Component {
     };
 
     render () {
-        // const { message } = this.state;
 
         return (
             <Form model = 'taskForms.edit'>
@@ -83,7 +64,6 @@ export default class TaskEdit extends Component {
                     id = 'taskForms.edit.message'
                     model = 'taskForms.edit.message'
                     type = 'message'
-                    // value = { message }
                     onChange = { this.handleOnChange }
                     onFocus = { this.moveCaretAtEnd }
                     onKeyPress = { this.handleKeyPress }

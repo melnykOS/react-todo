@@ -1,10 +1,14 @@
 import { call, put } from 'redux-saga/effects';
 
-import { config } from 'helpers';
+import { config, validateCreateEditInput } from 'helpers';
 import { tasksActions } from 'App/Tasks/actions';
 
 export function* editTaskWorker ({ payload: body }) {
     const { api, token } = config;
+
+    if (body[0] && !validateCreateEditInput(body[0].message.slice(1))) {
+        return yield false;
+    }
 
     try {
         const response = yield call(fetch, api, {
@@ -22,8 +26,8 @@ export function* editTaskWorker ({ payload: body }) {
         }
 
         yield put(tasksActions.editTaskSuccess(tasks));
+        yield put(tasksActions.setTaskEditable());
     } catch (error) {
         yield put(tasksActions.editTaskFail(error));
-        // showError(message);
     }
 }

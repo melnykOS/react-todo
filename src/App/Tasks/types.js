@@ -19,4 +19,6 @@ export default Object.freeze({
     SET_TASKS_COMPLETED: 'SET_TASKS_COMPLETED',
     SET_INPUT_CREATE:    'SET_INPUT_CREATE',
     SET_INPUT_EDIT:      'SET_INPUT_EDIT',
+
+    SET_LOADING: 'SET_LOADING',
 });

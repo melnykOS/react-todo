@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf } from 'prop-types';
+import { func, instanceOf, bool } from 'prop-types';
 import FlipMove from 'react-flip-move';
 import { List } from 'immutable';
 
@@ -14,26 +14,14 @@ export default class TaskList extends Component {
     static propTypes = {
         deleteTask:        func.isRequired,
         editTask:          func.isRequired,
+        isLoading:         bool.isRequired,
+        setLoading:        func.isRequired,
         setTasksCompleted: func.isRequired,
         tasks:             instanceOf(List).isRequired,
     };
 
-    state = {
-        loading:  '...',
-    }
-
-    componentWillReceiveProps (nextProps) {
-        if (!nextProps.tasks.length > 0) {
-            this.setState(() => ({
-                loading: 'Нет задач!',
-            }));
-        }
-    }
-
     render () {
-        const { editTask, tasks, deleteTask, editable, setTaskEditable, formActions, edit } = this.props;
-        const { loading } = this.state;
-
+        const { editTask, tasks, deleteTask, editable, setTaskEditable, formActions, edit, isLoading } = this.props;
         const taskList = tasks.map((task) => (
             <TaskItem
                 completed = { task.get('completed') }
@@ -42,10 +30,10 @@ export default class TaskList extends Component {
                 editable = { editable }
                 editTask = { editTask }
                 favorite = { task.get('favorite') }
+                formActions = { formActions }
                 id = { task.get('id') }
                 key = { task.get('id') }
                 message = { task.get('message') }
-                formActions = { formActions }
                 setTaskEditable = { setTaskEditable }
             />
         ));
@@ -53,7 +41,7 @@ export default class TaskList extends Component {
             ? <FlipMove duration = { 450 } easing = 'ease-out'>
                 { taskList }
             </FlipMove>
-            : <p className = { Styles.noTask }> { loading } </p>;
+            : <p className = { Styles.noTask }> { isLoading ? '...' : 'Нет задач!' } </p>;
 
         return (
             <ul className = { Styles.taskList }>

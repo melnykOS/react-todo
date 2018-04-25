@@ -6,7 +6,7 @@ import { func, string, bool } from 'prop-types';
 import TaskEdit from '../TaskEdit';
 
 // Instruments
-import { validateCreateEditInput, showError } from 'helpers';
+import { showError } from 'helpers';
 import Styles from './TaskItem.scss';
 import Checkbox from 'theme/assets/Checkbox';
 import Delete from 'theme/assets/Delete';
@@ -24,27 +24,14 @@ export default class TaskItem extends Component {
         setTaskEditable: func.isRequired,
     };
 
-    // state = {
-    //     message: '',
-    // }
-
-    // _setMessage = (message) => {
-    //     this.setState(() => ({
-    //         message,
-    //     }));
-    // }
-
     _editTask = (message) => {
-        const { id, editTask, completed, favorite, setTaskEditable } = this.props;
+        const { id, editTask, completed, favorite } = this.props;
 
-        validateCreateEditInput(message) &&
-            editTask([{ id, message, completed, favorite }]) &&
-            setTaskEditable();
+        editTask([{ id, message, completed, favorite }]);
     };
 
     handleEdit = () => {
         const { id, completed, setTaskEditable, editable, edit } = this.props;
-        // const { message } = this.state;
 
         if (editable === id) {
             this._editTask(edit);
@@ -80,14 +67,13 @@ export default class TaskItem extends Component {
         const messageWrapper = showEditField
             ? <TaskEdit
                 completed = { completed }
-                // edit = { edit }
                 editTask = { this._editTask }
                 favorite = { favorite }
+                formActions = { formActions }
                 id = { id }
                 message = { message }
-                formActions = { formActions }
-                setTaskEditable = { setTaskEditable }
                 setMessage = { this._setMessage }
+                setTaskEditable = { setTaskEditable }
             />
             : <span onClick = { this.handleEdit }> { message } </span>;
 

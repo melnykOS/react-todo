@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 // Instruments
 import { rootReducer } from './rootReducer';
 import { rootSaga } from './rootSaga';
+import { notifications } from './middleware';
 
 const dev = process.env.NODE_ENV === 'development';
 const devtools  = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
@@ -29,11 +30,12 @@ const logger = createLogger({
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
-    sagaMiddleware
+    sagaMiddleware,
 ];
 
 if (dev) {
     middleware.push(logger);
+    middleware.push(notifications);
 }
 
 const preloadedState = JSON.parse(localStorage.getItem('<<TASK_FORMS>>'));

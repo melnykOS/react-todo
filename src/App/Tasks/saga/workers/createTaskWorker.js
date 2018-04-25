@@ -7,7 +7,7 @@ import { tasksActions } from 'App/Tasks/actions';
 export function* createTaskWorker ({ payload: message }) {
     const { api, token } = config;
 
-    if (!validateCreateEditInput(message)) {
+    if (!validateCreateEditInput(message.slice(1))) {
         return yield false;
     }
     try {
@@ -28,6 +28,5 @@ export function* createTaskWorker ({ payload: message }) {
         yield put(actions.reset('taskForms.create'));
     } catch (error) {
         yield put(tasksActions.createTaskFail(error));
-        // showError(error.message);
     }
 }

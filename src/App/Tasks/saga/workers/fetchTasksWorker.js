@@ -20,6 +20,7 @@ export function* fetchTasksWorker ({ payload }) {
 
     Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
     try {
+        yield put(tasksActions.setLoading(true));
         const response = yield call(fetch, url, {
             method:  'GET',
             headers: {
@@ -34,7 +35,9 @@ export function* fetchTasksWorker ({ payload }) {
         }
 
         yield put(tasksActions.fetchTasksSuccess(tasks));
+        yield put(tasksActions.setLoading(false));
     } catch (error) {
         yield put(tasksActions.fetchTasksFail(error));
+        yield put(tasksActions.isLoading(false));
     }
 }

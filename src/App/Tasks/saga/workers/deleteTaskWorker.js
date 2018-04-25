@@ -21,6 +21,5 @@ export function* deleteTaskWorker ({ payload: id }) {
         yield put(tasksActions.deleteTaskSuccess(id));
     } catch ({ message }) {
         yield put(tasksActions.deleteTaskFail());
-        // showError(message);
     }
 }

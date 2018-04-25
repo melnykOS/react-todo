@@ -42,8 +42,8 @@ export default class TasksWrapper extends Component {
     }
 
     render () {
-        const { actions, tasks, editable, completedAll, search, edit, formActions } = this.props;
-        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted } = actions;
+        const { actions, tasks, editable, completedAll, search, edit, formActions, isLoading } = this.props;
+        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted, setLoading } = actions;
         const footerWrapper = tasks.size > 0
             ? <footer>
                 <Checkbox
@@ -75,10 +75,12 @@ export default class TasksWrapper extends Component {
                             edit = { edit }
                             editable = { editable }
                             editTask = { editTask }
-                            tasks = { tasks }
                             formActions = { formActions }
+                            isLoading = { isLoading }
+                            setLoading = { setLoading }
                             setTaskEditable = { setTaskEditable }
                             setTasksCompleted = { setTasksCompleted }
+                            tasks = { tasks }
                         />
                     </section>
                     { footerWrapper }

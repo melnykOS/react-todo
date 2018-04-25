@@ -9,7 +9,7 @@ const initialState = Map({
     list:         List([]),
     editable:     '',
     completedAll: null,
-    search:       '',
+    isLoading:    false,
 });
 
 export const tasks = (state = initialState, action) => {
@@ -47,6 +47,9 @@ export const tasks = (state = initialState, action) => {
         case types.SET_SEARCH:
             return state.set('editable', action.payload || '');
 
+        case types.SET_LOADING:
+            return state.set('isLoading', action.payload);
+
         default:
             return state;
     }
@@ -61,5 +64,5 @@ export const taskForms = combineForms({
     },
     edit: {
         message: '',
-    }
+    },
 }, 'taskForms');

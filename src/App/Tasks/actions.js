@@ -77,12 +77,8 @@ export const tasksActions = Object.freeze({
         payload: message,
     }),
 
-    setSearch: (text) => ({
-        type:    types.SET_SEARCH,
-        payload: text,
-    }),
-
-    getSearch: () => ({
-        type: types.SET_SEARCH,
+    setLoading: (param) => ({
+        type:    types.SET_LOADING,
+        payload: param,
     }),
 });
