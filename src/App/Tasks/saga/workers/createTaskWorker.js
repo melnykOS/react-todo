@@ -24,8 +24,9 @@ export function* createTaskWorker ({ payload: message }) {
         if (response.status !== 200) {
             throw new Error(error);
         }
-        yield put(tasksActions.createTaskSuccess(task));
+
         yield put(actions.reset('taskForms.create'));
+        yield put(tasksActions.createTaskSuccess(task));
     } catch (error) {
         yield put(tasksActions.createTaskFail(error));
     }

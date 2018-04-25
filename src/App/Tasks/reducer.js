@@ -8,7 +8,7 @@ import { sortByFavComplete } from 'helpers';
 const initialState = Map({
     list:         List([]),
     editable:     '',
-    completedAll: null,
+    completedAll: false,
     isLoading:    false,
 });
 

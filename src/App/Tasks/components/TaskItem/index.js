@@ -1,6 +1,6 @@
 //Core
 import React, { Component } from 'react';
-import { func, string, bool } from 'prop-types';
+import { func, string, bool, object } from 'prop-types';
 
 //Components
 import TaskEdit from '../TaskEdit';
@@ -19,6 +19,7 @@ export default class TaskItem extends Component {
         editable:        string.isRequired,
         editTask:        func.isRequired,
         favorite:        bool.isRequired,
+        formActions:     object.isRequired,
         id:              string.isRequired,
         message:         string.isRequired,
         setTaskEditable: func.isRequired,

@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { func, string, bool } from 'prop-types';
+import { func, string, object } from 'prop-types';
 import { Form, Control } from 'react-redux-form';
 
 // Instruments
@@ -9,10 +9,12 @@ import { validateCreateEditInput } from 'helpers';
 
 export default class TaskEdit extends Component {
     static propTypes = {
-        completed:       bool.isRequired,
+        // completed:       bool.isRequired,
         editTask:        func.isRequired,
-        favorite:        bool.isRequired,
-        id:              string.isRequired,
+        // favorite:        bool.isRequired,
+        // id:              string.isRequired,
+        formActions:     object.isRequired,
+        message:         string.isRequired,
         setTaskEditable: func.isRequired,
     };
 
@@ -31,8 +33,10 @@ export default class TaskEdit extends Component {
     }
 
     handleEscape = (event) => {
+        const { setTaskEditable } = this.props;
+
         if (event.key === 'Escape') {
-            this.props.setTaskEditable();
+            setTaskEditable();
         }
     }
 

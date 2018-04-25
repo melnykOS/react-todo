@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf, bool } from 'prop-types';
+import { func, instanceOf, bool, string, object } from 'prop-types';
 import FlipMove from 'react-flip-move';
 import { List } from 'immutable';
 
@@ -12,12 +12,14 @@ import Styles from './TaskList.scss';
 
 export default class TaskList extends Component {
     static propTypes = {
-        deleteTask:        func.isRequired,
-        editTask:          func.isRequired,
-        isLoading:         bool.isRequired,
-        setLoading:        func.isRequired,
-        setTasksCompleted: func.isRequired,
-        tasks:             instanceOf(List).isRequired,
+        deleteTask:      func.isRequired,
+        edit:            string.isRequired,
+        editable:        string.isRequired,
+        editTask:        func.isRequired,
+        formActions:     object.isRequired,
+        isLoading:       bool.isRequired,
+        setTaskEditable: func.isRequired,
+        tasks:           instanceOf(List).isRequired,
     };
 
     render () {

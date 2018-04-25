@@ -1,6 +1,6 @@
 // Core
 import React, { Component } from 'react';
-import { func, instanceOf, shape } from 'prop-types';
+import { func, instanceOf, shape, string, bool, object } from 'prop-types';
 import Immutable from 'immutable';
 
 import Styles from './TasksWrapper.scss';
@@ -17,19 +17,30 @@ import { config } from 'helpers';
 export default class TasksWrapper extends Component {
     static propTypes = {
         actions: shape({
-            createTask: func.isRequired,
-            deleteTask: func.isRequired,
-            editTask:   func.isRequired,
-            fetchTasks: func.isRequired,
+            createTask:      func.isRequired,
+            deleteTask:      func.isRequired,
+            editTask:        func.isRequired,
+            fetchTasks:      func.isRequired,
+            setTaskEditable: func.isRequired,
         }).isRequired,
-        tasks: instanceOf(Immutable.List).isRequired,
+        completedAll: bool.isRequired,
+        edit:         string.isRequired,
+        editable:     string.isRequired,
+        formActions:  object.isRequired,
+        isLoading:    bool.isRequired,
+        search:       string.isRequired,
+        tasks:        instanceOf(Immutable.List).isRequired,
     };
 
-    componentWillReceiveProps (nextProps) {
-        const { actions } = this.props;
+    static getDerivedStateFromProps (nextProps) {
+        const { actions } = nextProps;
 
         actions.setTasksCompleted(nextProps.tasks);
+
+        return null;
     }
+
+    state = {};
 
     handleCompleteAll = () => {
         const { actions, completedAll, tasks: tasksList } = this.props;
@@ -43,7 +54,7 @@ export default class TasksWrapper extends Component {
 
     render () {
         const { actions, tasks, editable, completedAll, search, edit, formActions, isLoading } = this.props;
-        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted, setLoading } = actions;
+        const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable } = actions;
         const footerWrapper = tasks.size > 0
             ? <footer>
                 <Checkbox
@@ -77,9 +88,7 @@ export default class TasksWrapper extends Component {
                             editTask = { editTask }
                             formActions = { formActions }
                             isLoading = { isLoading }
-                            setLoading = { setLoading }
                             setTaskEditable = { setTaskEditable }
-                            setTasksCompleted = { setTasksCompleted }
                             tasks = { tasks }
                         />
                     </section>

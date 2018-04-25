@@ -10,7 +10,7 @@ import { rootSaga } from './rootSaga';
 import { notifications } from './middleware';
 
 const dev = process.env.NODE_ENV === 'development';
-const devtools  = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 
 const composeEnhancers = dev && devtools ? devtools : compose;
 
@@ -30,7 +30,7 @@ const logger = createLogger({
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
-    sagaMiddleware,
+    sagaMiddleware
 ];
 
 if (dev) {
