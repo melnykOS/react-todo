@@ -3,9 +3,9 @@ import React, { Component, Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
 
 // Components
-import Tasks from 'Tasks';
+import Tasks from 'App/Tasks';
 
-export default class Main extends Component {
+export default class App extends Component {
     render () {
         return (
             <Fragment>

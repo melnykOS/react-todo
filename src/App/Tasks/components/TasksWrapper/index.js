@@ -2,9 +2,6 @@
 import React, { Component } from 'react';
 import { func, instanceOf, shape } from 'prop-types';
 import Immutable from 'immutable';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actions as formActions } from 'react-redux-form';
 
 import Styles from './TasksWrapper.scss';
 
@@ -12,32 +9,11 @@ import Styles from './TasksWrapper.scss';
 import TaskSearch from '../TaskSearch';
 import TaskInput from '../TaskInput';
 import TaskList from '../TaskList';
-import { tasksActions } from 'Tasks/actions';
 
 // Instruments
 import Checkbox from 'theme/assets/Checkbox';
 import { config } from 'helpers';
-console.log(formActions);
-console.log(tasksActions);
-const mapStateToProps = (state) => ({
-    tasks:        state.tasks.get('list'),
-    editable:     state.tasks.get('editable'),
-    completedAll: state.tasks.get('completedAll'),
-    search:       state.taskForms.search.text,
-    message:      state.taskForms.create.message,
-    edit:         state.taskForms.edit.message,
-});
 
-const mapDispatchToProps = (dispatch) => ({
-    actions: bindActionCreators({
-        ...tasksActions,
-    }, dispatch),
-    formActions: bindActionCreators({
-        ...formActions
-    }, dispatch),
-});
-
-@connect(mapStateToProps, mapDispatchToProps)
 export default class TasksWrapper extends Component {
     static propTypes = {
         actions: shape({
@@ -66,7 +42,6 @@ export default class TasksWrapper extends Component {
     }
 
     render () {
-        console.log(this.props)
         const { actions, tasks, editable, completedAll, search, edit, formActions } = this.props;
         const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable, setTasksCompleted } = actions;
         const footerWrapper = tasks.size > 0

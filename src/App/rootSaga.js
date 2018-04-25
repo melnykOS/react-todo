@@ -1,6 +1,6 @@
 import { all } from 'redux-saga/effects';
 
-import tasks from 'Tasks/saga/watchers';
+import tasks from 'App/Tasks/saga/watchers';
 
 export function* rootSaga () {
     yield all([

@@ -24,7 +24,7 @@ export default class TaskEdit extends Component {
     componentWillMount () {
         const { message, setMessage, formActions } = this.props;
         
-        this.setState(() => ({ message }));
+        // this.setState(() => ({ message }));
         // setMessage(message);
         console.log(formActions)
         formActions.change('taskForms.edit.message', message);
@@ -48,13 +48,13 @@ export default class TaskEdit extends Component {
         const { value: message } = event.target;
 
         // this.props.setMessage(message);
-        this.setState(() => ({
-            message,
-        }));
+        // this.setState(() => ({
+        //     message,
+        // }));
     };
 
     handleKeyPress = (event) => {
-        const { message } = this.state;
+        // const { message } = this.state;
 
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -73,7 +73,7 @@ export default class TaskEdit extends Component {
     };
 
     render () {
-        const { message } = this.state;
+        // const { message } = this.state;
 
         return (
             <Form model = 'taskForms.edit'>

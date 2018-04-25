@@ -74,13 +74,13 @@ export default class TaskItem extends Component {
     };
 
     render () {
-        const { id, message, completed, favorite, editable, setTaskEditable, formActions, edit } = this.props;
+        const { id, message, completed, favorite, editable, setTaskEditable, formActions } = this.props;
         const showEditField = editable === id;
         const isComplete = completed ? Styles.completed : '';
         const messageWrapper = showEditField
             ? <TaskEdit
                 completed = { completed }
-                edit = { edit }
+                // edit = { edit }
                 editTask = { this._editTask }
                 favorite = { favorite }
                 id = { id }

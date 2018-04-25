@@ -4,11 +4,11 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 
 // Instruments
-import store from './init/store';
+import store from './App/store';
 import './theme/reset.css';
 
 // App
-import Main from './pages/Main';
+import App from './App';
 
 store.subscribe(() => {
     const { forms, ...state } = store.getState().taskForms;
@@ -18,7 +18,7 @@ store.subscribe(() => {
 
 render(
     <Provider store = { store }>
-        <Main />
+        <App />
     </Provider>,
     document.getElementById('root')
 );

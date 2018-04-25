@@ -3,7 +3,7 @@ import React from 'react';
 import { combineReducers } from 'redux';
 
 // Instruments
-import * as tasks from 'Tasks/reducer';
+import * as tasks from 'App/Tasks/reducer';
 
 export const rootReducer = combineReducers({
     ...tasks,

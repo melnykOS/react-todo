@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 
 import { config } from 'helpers';
-import { tasksActions } from 'Tasks/actions';
+import { tasksActions } from 'App/Tasks/actions';
 
 export function* deleteTaskWorker ({ payload: id }) {
     const { api, token } = config;

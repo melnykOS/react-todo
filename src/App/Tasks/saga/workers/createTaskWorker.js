@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import { actions } from 'react-redux-form';
 
 import { config, validateCreateEditInput } from 'helpers';
-import { tasksActions } from 'Tasks/actions';
+import { tasksActions } from 'App/Tasks/actions';
 
 export function* createTaskWorker ({ payload: message }) {
     const { api, token } = config;
