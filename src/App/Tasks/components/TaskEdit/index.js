@@ -9,10 +9,7 @@ import { validateCreateEditInput } from 'helpers';
 
 export default class TaskEdit extends Component {
     static propTypes = {
-        // completed:       bool.isRequired,
         editTask:        func.isRequired,
-        // favorite:        bool.isRequired,
-        // id:              string.isRequired,
         formActions:     object.isRequired,
         message:         string.isRequired,
         setTaskEditable: func.isRequired,
