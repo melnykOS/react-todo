@@ -1,4 +1,4 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { actions } from 'react-redux-form';
 
 import { config, validateCreateEditInput } from 'helpers';
@@ -25,8 +25,16 @@ export function* createTaskWorker ({ payload: message }) {
             throw new Error(error);
         }
 
+        const search = (state) => state.cart;
+
         yield put(actions.reset('taskForms.create'));
-        yield put(tasksActions.createTaskSuccess(task));
+        yield select(search);
+        if (search) {
+            yield put(tasksActions.fetchTasks({ search: '' }));
+            yield put(actions.reset('taskForms.search'));
+        } else {
+            yield put(tasksActions.createTaskSuccess(task));
+        }
     } catch (error) {
         yield put(tasksActions.createTaskFail(error));
     }
