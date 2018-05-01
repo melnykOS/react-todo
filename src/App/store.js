@@ -1,5 +1,4 @@
 // Core
-import React from 'react';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
@@ -38,11 +37,12 @@ if (dev) {
     middleware.push(notifications);
 }
 
-const preloadedState = JSON.parse(localStorage.getItem('<<TASK_FORMS>>'));
+
+const preloadState = JSON.parse(localStorage.getItem('<<TASKS>>')) || {};
 
 export default createStore(
     rootReducer,
-    { taskForms: preloadedState },
+    preloadState,
     composeEnhancers(applyMiddleware(...middleware))
 );
 

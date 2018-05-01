@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import { func, instanceOf, shape, string, bool, object } from 'prop-types';
 import Immutable from 'immutable';
 
-import Styles from './TasksWrapper.scss';
-
 // Components
 import TaskSearch from '../TaskSearch';
 import TaskInput from '../TaskInput';
 import TaskList from '../TaskList';
+import Styles from './TasksWrapper.scss';
 
 // Instruments
 import Checkbox from 'theme/assets/Checkbox';
@@ -17,17 +16,19 @@ import { config } from 'helpers';
 export default class TasksWrapper extends Component {
     static propTypes = {
         actions: shape({
-            createTask:      func.isRequired,
-            deleteTask:      func.isRequired,
-            editTask:        func.isRequired,
-            fetchTasks:      func.isRequired,
-            setTaskEditable: func.isRequired,
+            createTask:        func.isRequired,
+            deleteTask:        func.isRequired,
+            editTask:          func.isRequired,
+            fetchTasks:        func.isRequired,
+            setTaskEditable:   func.isRequired,
+            setTasksCompleted: func.isRequired,
         }).isRequired,
         completedAll: bool.isRequired,
         edit:         string.isRequired,
         editable:     string.isRequired,
         formActions:  object.isRequired,
         isLoading:    bool.isRequired,
+        params:       instanceOf(Immutable.Map).isRequired,
         search:       string.isRequired,
         tasks:        instanceOf(Immutable.List).isRequired,
     };
@@ -53,7 +54,7 @@ export default class TasksWrapper extends Component {
     }
 
     render () {
-        const { actions, tasks, editable, completedAll, search, edit, formActions, isLoading } = this.props;
+        const { actions, tasks, editable, completedAll, search, edit, formActions, isLoading, params } = this.props;
         const { fetchTasks, createTask, deleteTask, editTask, setTaskEditable } = actions;
         const footerWrapper = tasks.size > 0
             ? <footer>
@@ -86,8 +87,10 @@ export default class TasksWrapper extends Component {
                             edit = { edit }
                             editable = { editable }
                             editTask = { editTask }
+                            fetchTasks = { fetchTasks }
                             formActions = { formActions }
                             isLoading = { isLoading }
+                            params = { params }
                             setTaskEditable = { setTaskEditable }
                             tasks = { tasks }
                         />

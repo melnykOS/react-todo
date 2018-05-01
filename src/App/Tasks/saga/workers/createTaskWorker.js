@@ -7,7 +7,7 @@ import { tasksActions } from 'App/Tasks/actions';
 export function* createTaskWorker ({ payload: message }) {
     const { api, token } = config;
 
-    if (!validateCreateEditInput(message.slice(1))) {
+    if (message.length !== 1 && !validateCreateEditInput(message.slice(1))) {
         return yield false;
     }
     try {
@@ -25,13 +25,13 @@ export function* createTaskWorker ({ payload: message }) {
             throw new Error(error);
         }
 
-        const search = (state) => state.cart;
+        const store = (state) => state.taskForms.search.text;
+        const search =  yield select(store);
 
         yield put(actions.reset('taskForms.create'));
-        yield select(search);
-        if (search) {
-            yield put(tasksActions.fetchTasks({ search: '' }));
+        if (search !== '') {
             yield put(actions.reset('taskForms.search'));
+            yield put(tasksActions.fetchTasks({ search: '', page: 1 }));
         } else {
             yield put(tasksActions.createTaskSuccess(task));
         }

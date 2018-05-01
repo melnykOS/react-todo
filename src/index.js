@@ -11,9 +11,9 @@ import './theme/reset.css';
 import App from './App';
 
 store.subscribe(() => {
-    const { forms, ...state } = store.getState().taskForms;
+    const { create, search } = store.getState().taskForms;
 
-    localStorage.setItem('<<TASK_FORMS>>', JSON.stringify(state));
+    localStorage.setItem('<<TASKS>>', JSON.stringify({ taskForms: { create, search }}));
 });
 
 render(

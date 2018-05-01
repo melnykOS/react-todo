@@ -21,4 +21,5 @@ export default Object.freeze({
     SET_INPUT_EDIT:      'SET_INPUT_EDIT',
 
     SET_LOADING: 'SET_LOADING',
+    CLEAR_TASKS: 'CLEAR_TASKS',
 });

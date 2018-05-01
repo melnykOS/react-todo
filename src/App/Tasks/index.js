@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
     editable:     state.tasks.get('editable'),
     completedAll: state.tasks.get('completedAll'),
     isLoading:    state.tasks.get('isLoading'),
+    params:       state.tasks.get('params'),
     search:       state.taskForms.search.text,
     message:      state.taskForms.create.message,
     edit:         state.taskForms.edit.message,

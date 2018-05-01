@@ -10,12 +10,25 @@ const initialState = Map({
     editable:     '',
     completedAll: false,
     isLoading:    false,
+    params:       Map({
+        search: '',
+        page:   1,
+        size:   10,
+        total:  5,
+    }),
 });
 
 export const tasks = (state = initialState, action) => {
     switch (action.type) {
+        case types.CLEAR_TASKS:
+            return state.set('list', List([]))
+                .setIn(['params', 'page'], 1);
+
         case types.FETCH_TASKS_SUCCESS:
-            return state.set('list', sortByFavComplete(fromJS(action.payload)));
+            return state.set('list', sortByFavComplete(state.get('list').concat(fromJS(
+                action.payload.tasks))))
+                .setIn(['params', 'page'], state.getIn(['params', 'page']) + 1)
+                .setIn(['params', 'total'], action.payload.meta.total);
 
         case types.CREATE_TASK_SUCCESS:
             return state.update('list', (list) => sortByFavComplete(list.unshift(fromJS(action.payload))));
@@ -42,9 +55,6 @@ export const tasks = (state = initialState, action) => {
                 task.get('completed') === false));
 
         case types.SET_INPUT_CREATE:
-            return state.set('editable', action.payload || '');
-
-        case types.SET_SEARCH:
             return state.set('editable', action.payload || '');
 
         case types.SET_LOADING:

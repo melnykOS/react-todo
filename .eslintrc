@@ -17,6 +17,9 @@ env:
   jest: true
   es6: true
 
+globals:
+  process: false
+
 rules:
   no-cond-assign: 1
   no-console: 0
@@ -310,5 +313,5 @@ rules:
                                "afterOpening": "never"
                              }]
   react/jsx-uses-react: 1
-  react/jsx-uses-vars: 1
+  react/jsx-uses-vars: ["error"]
   react/jsx-wrap-multilines: [1, {declaration: false, assignment: false}]

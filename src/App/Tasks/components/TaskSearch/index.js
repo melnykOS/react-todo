@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { func, string } from 'prop-types';
 import { Form, Control } from 'react-redux-form';
+import debounce from 'lodash/debounce';
 
 import Styles from './TaskInput.scss';
 
@@ -17,11 +18,12 @@ export default class TaskSearch extends Component {
         fetchTasks({ search });
     }
 
+    debounceFetch = debounce(this.props.fetchTasks, 250);
+
     searchTasks = (event) => {
         const { value: search } = event.target;
-        const { fetchTasks } =  this.props;
 
-        fetchTasks({ search, page: 1 });
+        this.debounceFetch({ search, page: 1 });
     }
 
     render () {
