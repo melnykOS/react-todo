@@ -7,7 +7,11 @@ Branch: Redux
 
 Port 8080
 
-## API, TOKEN path
+## API, TOKEN as ENV vars
+    api:   process.env.API,
+    token: process.env.TOKEN,
+
+path to set manually
 /src/helpers/config.js
 
 ## c9 DEMO
