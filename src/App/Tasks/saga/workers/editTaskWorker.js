@@ -6,7 +6,9 @@ import { tasksActions } from 'App/Tasks/actions';
 export function* editTaskWorker ({ payload: body }) {
     const { api, token } = config;
 
-    if (body[0] && !validateCreateEditInput(body[0].message.slice(1))) {
+    if (body[0]
+        && body[0].message.length !== 1
+        && !validateCreateEditInput(body[0].message.slice(1))) {
         return yield false;
     }
 
